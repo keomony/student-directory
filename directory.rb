@@ -38,9 +38,25 @@ def print_name_begins_with(students, a_letter)
       i += 1
     end
   end
-  #if no name matched
+  #if no name matched the condition
   if i < 2
     puts "There's no student whose name beings with #{a_letter}"
+  end
+end
+
+#print students whose names are shorter than 12 characters
+def print_name_shorter_than(students, num)
+  #iterator starts from 1
+  i = 1
+  students.each do |student|
+    if student[:name].length < num
+      puts "#{i}.#{student[:name]}, #{student[:name].length} (#{student[:cohort]} cohort)"
+      i += 1
+    end
+  end
+  #if no name matched the condition
+  if i < 2
+    puts "There's no student whose name is shorter than #{num}"
   end
 end
 
@@ -56,3 +72,8 @@ print_footer(students)
 #print the list of all students whose names begin with 'k'
 puts "-".* 20
 print_name_begins_with(students, 'k')
+
+#print students whose names are shorter than 12 characters
+puts "-".* 20
+puts "Students whose names are shorter than 12 characters"
+print_name_shorter_than(students, 12)
