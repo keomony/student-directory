@@ -28,6 +28,22 @@ def print(students)
   end
 end
 
+#print the students whose name begins with a specific letter
+def print_name_begins_with(students, a_letter)
+  #iterator starts from 1
+  i = 1
+  students.each do |student|
+    if student[:name].chars.first.downcase == a_letter.downcase
+      puts "#{i}.#{student[:name]} (#{student[:cohort]} cohort)"
+      i += 1
+    end
+  end
+  #if no name matched
+  if i < 2
+    puts "There's no student whose name beings with #{a_letter}"
+  end
+end
+
 def print_footer(names)
   puts "Overall, we have #{names.count} great students."
 end
@@ -37,3 +53,6 @@ students = input_students
 print_header
 print(students)
 print_footer(students)
+#print the list of all students whose names begin with 'k'
+puts "-".* 20
+print_name_begins_with(students, 'k')
