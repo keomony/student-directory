@@ -26,10 +26,17 @@ def input_students
         height = gets.chomp
         #add the student hash to the array
         students << {name: name, cohort: cohort.capitalize.to_sym, hobbies: hobbies, country: country, height: height}
-        puts "Now we have #{students.count} students"
-        #get another name from the user
-        puts "Name:"
-        name = gets.chomp
+        if students.length == 1
+          puts "Now we have #{students.count} student"
+          #get another name from the user
+          puts "Name:"
+          name = gets.chomp
+        else
+          puts "Now we have #{students.count} students"
+          #get another name from the user
+          puts "Name:"
+          name = gets.chomp
+        end
     end
   end
   #return the array of students
@@ -55,7 +62,7 @@ def print_name_begins_with(students, a_letter)
   #iterator starts from 1
   i = 1
   begin
-    if students[j][:name].chars.first.downcase ==a_letter.downcase
+    if students[j][:name].chars.first.downcase == a_letter.downcase
       puts "#{i}.#{students[j][:name]} (#{students[j][:cohort]} cohort)"
       i +=1
     end
