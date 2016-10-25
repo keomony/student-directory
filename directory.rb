@@ -5,13 +5,23 @@ def input_students
   students = []
   #get the first name
   name = gets.chomp
+
   #while the name is not empty, repeat this code
   while !name.empty? do
+    puts "Please enter hobbies, country of birth, height"
+    #get hobbies, country of birth, height
+    hobbies = gets.chomp
+    country = gets.chomp
+    height = gets.chomp
     #add the student hash to the array
-    students << {name: name, cohort: :november}
+    students << {name: name, cohort: :november, hobbies: hobbies, country: country, height: height}
     puts "Now we have #{students.count} students"
     #get another name from the user
     name = gets.chomp
+    # puts "and hobbies, country of birth, height"
+    # hobbies = gets.chomp
+    # country = gets.chomp
+    # height = gets.chomp
   end
   #return the array of students
   students
@@ -30,6 +40,7 @@ end
 
 #print the students whose name begins with a specific letter
 def print_name_begins_with(students, a_letter)
+  puts "Students whose names begin with #{a_letter}"
   #array index starts from 0
   j = 0
   #iterator starts from 1
@@ -50,6 +61,7 @@ end
 
 #print students whose names are shorter than 12 characters
 def print_name_shorter_than(students, num)
+  puts "Students whose names are shorter than #{num} characters"
   #array index starts from 0
   j = 0
   #iterator starts from 1
@@ -82,5 +94,4 @@ print_name_begins_with(students, 'k')
 
 #print students whose names are shorter than 12 characters
 puts "-".* 20
-puts "Students whose names are shorter than 12 characters"
 print_name_shorter_than(students, 12)
