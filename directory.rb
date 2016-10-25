@@ -30,30 +30,37 @@ end
 
 #print the students whose name begins with a specific letter
 def print_name_begins_with(students, a_letter)
+  #array index starts from 0
+  j = 0
   #iterator starts from 1
   i = 1
-  students.each do |student|
-    if student[:name].chars.first.downcase == a_letter.downcase
-      puts "#{i}.#{student[:name]} (#{student[:cohort]} cohort)"
-      i += 1
+  begin
+    if students[j][:name].chars.first.downcase ==a_letter.downcase
+      puts "#{i}.#{students[j][:name]} (#{students[j][:cohort]} cohort)"
+      i +=1
     end
-  end
+    j += 1
+  end while j< students.length #while loops as long as the condition is true
   #if no name matched the condition
   if i < 2
     puts "There's no student whose name beings with #{a_letter}"
   end
 end
 
+
 #print students whose names are shorter than 12 characters
 def print_name_shorter_than(students, num)
+  #array index starts from 0
+  j = 0
   #iterator starts from 1
   i = 1
-  students.each do |student|
-    if student[:name].length < num
-      puts "#{i}.#{student[:name]}, #{student[:name].length} (#{student[:cohort]} cohort)"
+  begin
+    if students[j][:name].length < num
+      puts "#{i}.#{students[j][:name]}, #{students[j][:name].length} (#{students[j][:cohort]} cohort)"
       i += 1
     end
-  end
+    j +=1
+  end until j > students.length - 1 #until loops as long as the condition is false
   #if no name matched the condition
   if i < 2
     puts "There's no student whose name is shorter than #{num}"
