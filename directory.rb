@@ -1,27 +1,36 @@
 def input_students
-  puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
+  puts "Please enter the names of the students"
+  puts "Name:"
   # create an empty array
   students = []
+  month = ['January','Feburary','March','April','May','June','July','August','September','November','December']
   #get the first name
   name = gets.chomp
 
   #while the name is not empty, repeat this code
   while !name.empty? do
-    puts "Please enter hobbies, country of birth, height"
-    #get hobbies, country of birth, height
-    hobbies = gets.chomp
-    country = gets.chomp
-    height = gets.chomp
-    #add the student hash to the array
-    students << {name: name, cohort: :november, hobbies: hobbies, country: country, height: height}
-    puts "Now we have #{students.count} students"
-    #get another name from the user
-    name = gets.chomp
-    # puts "and hobbies, country of birth, height"
-    # hobbies = gets.chomp
-    # country = gets.chomp
-    # height = gets.chomp
+    puts "Cohort:"
+    cohort = gets.chomp
+    if (cohort.to_s.empty?) || (month.select{|m| m.downcase == cohort.downcase}.empty?) == true
+        puts "Typo"
+        #puts "Cohort:"
+        #cohort = gets.chomp
+    else
+        puts "Hobbies:"
+        #get hobbies, country of birth, height
+        hobbies = gets.chomp
+        puts "Country of birth:"
+        country = gets.chomp
+        puts "Height:"
+        height = gets.chomp
+        #add the student hash to the array
+        students << {name: name, cohort: cohort.capitalize.to_sym, hobbies: hobbies, country: country, height: height}
+        puts "Now we have #{students.count} students"
+        #get another name from the user
+        puts "Name:"
+        name = gets.chomp
+    end
   end
   #return the array of students
   students
