@@ -9,12 +9,13 @@ def input_students
   # create an empty array
   students = []
   #get the first name
-  name = gets.chomp
+  #remove the white space at the end of the line
+  name = gets.gsub(/\s+$/,'')
 
   #while the name is not empty, repeat this code
   while !name.empty? do
     puts "Cohort:"
-    cohort = gets.chomp
+    cohort = gets.gsub(/\s+$/,'')
     #validate cohort input if it's empty or not match with the existing cohort (considered it as typo)
     #, print out Typo to let the user know
     if (cohort.to_s.empty?) || ($months.select{|m| m.downcase == cohort.downcase}.empty?) == true
@@ -22,11 +23,11 @@ def input_students
     else
         puts "Hobbies:"
         #get hobbies, country of birth, height
-        hobbies = gets.chomp
+        hobbies = gets.gsub(/\s+$/,'')
         puts "Country of birth:"
-        country = gets.chomp
+        country = gets.gsub(/\s+$/,'')
         puts "Height:"
-        height = gets.chomp
+        height = gets.gsub(/\s+$/,'')
         #add the student hash to the array
         students << {name: name, cohort: cohort.capitalize.to_sym, hobbies: hobbies, country: country, height: height}
         if students.length == 1
@@ -36,7 +37,7 @@ def input_students
         end
         #get another name from the user
         puts "Name:"
-        name = gets.chomp
+        name = gets.gsub(/\s+$/,'')
     end
   end
   #return the array of students
