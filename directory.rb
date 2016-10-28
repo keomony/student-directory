@@ -6,9 +6,10 @@
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. List of all students whose names begin with \'k\'"
-  puts "4. Print students whose names are shorter than 12 characters"
-  puts "5. Print students grouped by cohort"
+  puts "3. Save the list to students.csv"
+  puts "4. List of all students whose names begin with \'k\'"
+  puts "5. Print students whose names are shorter than 12 characters"
+  puts "6. Print students grouped by cohort"
   puts "9. Exit" # 9 because we'll be adding more items
 end
 
@@ -25,12 +26,14 @@ def process(selection)
     when "2"
       show_students
     when "3"
-      puts "-".* 70
-      print_name_begins_with('k')
+      save_students
     when "4"
       puts "-".* 70
-      print_name_shorter_than(12)
+      print_name_begins_with('k')
     when "5"
+      puts "-".* 70
+      print_name_shorter_than(12)
+    when "6"
       puts "-".* 70
       print_groupby_cohort
     when "9"
@@ -38,6 +41,19 @@ def process(selection)
     else
       puts "I don't know what you meant. Try again."
   end
+end
+
+def save_students
+  #open the file for writing
+  file = File.open("students.csv", "w")
+  #iterate over the array of students
+  @students.each do |student|
+    student_data = [student[:name], student[:cohort], student[:hobbies], student[:country], student[:height]]
+    csv_line = student_data.join(",")
+    file.puts csv_line
+  end
+  file.close
+  puts "saved."
 end
 
 def interactive_menu
