@@ -59,8 +59,8 @@ def save_students
   puts "saved."
 end
 
-def load_students
-  file = File.open("students.csv", "r")
+def load_students(filename = 'students.csv')
+  file = File.open(filename, "r")
   file.readlines.each do |line|
     name,cohort,hobbies,country,height = line.chomp.split(',')
     @students << {name: name, cohort: cohort.to_sym, hobbies: hobbies, country: country, height: height}
@@ -68,10 +68,23 @@ def load_students
   file.close
 end
 
+def try_load_students
+  filename = ARGV.first #first argument from the command line
+  return if filename.nil? #get out of the method if it's not given
+  if File.exists?(filename)
+    load_students(filename)
+    puts "Loaded #{@students.count} from #{filename}"
+  else #if it doesn't exist
+    puts "Sorry, #{filename} doesn't exist."
+    exit #quit the program
+  end
+end
+
+try_load_students
 def interactive_menu
   loop do
     print_menu
-    process(gets.chomp)
+    process(STDIN.gets.chomp)
   end
 end
 
@@ -82,12 +95,12 @@ def input_students
   puts "Name:"
   #get the first name
   #remove the white space at the end of the line
-  name = gets.gsub(/\s+$/,'')
+  name = STDIN.gets.gsub(/\s+$/,'')
 
   #while the name is not empty, repeat this code
   while !valid_name?(name) do
     puts "Cohort:"
-    cohort = gets.gsub(/\s+$/,'')
+    cohort = STDIN.gets.gsub(/\s+$/,'')
     #validate cohort input if it's empty or not match with the existing cohort (considered it as typo)
     #, print out Typo to let the user know
     if (cohort.to_s.empty?) || (@months.select{|m| m.downcase == cohort.downcase}.empty?) == true
@@ -95,11 +108,11 @@ def input_students
     else
       puts "Hobbies:"
       #get hobbies, country of birth, height
-      hobbies = gets.gsub(/\s+$/,'')
+      hobbies = STDIN.gets.gsub(/\s+$/,'')
       puts "Country of birth:"
-      country = gets.gsub(/\s+$/,'')
+      country = STDIN.gets.gsub(/\s+$/,'')
       puts "Height:"
-      height = gets.gsub(/\s+$/,'')
+      height = STDIN.gets.gsub(/\s+$/,'')
       #add the student hash to the array
       @students << {name: name, cohort: cohort.capitalize.to_sym, hobbies: hobbies, country: country, height: height}
       if @students.length == 1
@@ -109,7 +122,7 @@ def input_students
       end
       #get another name from the user
       puts "Name:"
-      name = gets.gsub(/\s+$/,'')
+      name = STDIN.gets.gsub(/\s+$/,'')
     end
   end
 end
