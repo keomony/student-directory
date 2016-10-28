@@ -1,13 +1,53 @@
 #set months as global variable as it is needed in different methods
 #months of the year are always the same, there's no modification on the varialbe and its values
 $months = ['January','Feburary','March','April','May','June','July','August','September','November','December']
+
+def interactive_menu
+  #create an empty array
+  students = []
+  # 4. repeat from step 1
+  loop do
+    #1. print the menu and ask the user what to do
+    puts "1. Input the students"
+    puts "2. Show the students"
+    puts "3. List of all students whose names begin with \'k\'"
+    puts "4. Print students whose names are shorter than 12 characters"
+    puts "5. Print students grouped by cohort"
+    puts "9. Exit" # 9 because we'll be adding more items
+    # 2. read the input and save it into a variable
+    selection = gets.chomp
+    # 3. do what the user has asked
+    case selection
+      when "1"
+        students = input_students
+      when "2"
+        print_header
+        print(students)
+        print_footer(students)
+      when "3"
+        puts "-".* 70
+        print_name_begins_with(students, 'k')
+      when "4"
+        puts "-".* 70
+        print_name_shorter_than(students, 12)
+      when "5"
+        puts "-".* 70
+        print_groupby_cohort(students)
+      when "9"
+        exit
+      else
+        puts "I don't know what you meant. Try again."
+    end
+  end
+end
+
 #input students info from the user and do some validations
 def input_students
+  #create an empty array
+  students = []
   puts "To finish, just hit return twice"
   puts "Please enter the names of the students"
   puts "Name:"
-  # create an empty array
-  students = []
   #get the first name
   #remove the white space at the end of the line
   name = gets.gsub(/\s+$/,'')
@@ -19,25 +59,25 @@ def input_students
     #validate cohort input if it's empty or not match with the existing cohort (considered it as typo)
     #, print out Typo to let the user know
     if (cohort.to_s.empty?) || ($months.select{|m| m.downcase == cohort.downcase}.empty?) == true
-        puts "Typo"
+      puts "Typo"
     else
-        puts "Hobbies:"
-        #get hobbies, country of birth, height
-        hobbies = gets.gsub(/\s+$/,'')
-        puts "Country of birth:"
-        country = gets.gsub(/\s+$/,'')
-        puts "Height:"
-        height = gets.gsub(/\s+$/,'')
-        #add the student hash to the array
-        students << {name: name, cohort: cohort.capitalize.to_sym, hobbies: hobbies, country: country, height: height}
-        if students.length == 1
-          puts "Now we have #{students.count} student"
-        else
-          puts "Now we have #{students.count} students"
-        end
-        #get another name from the user
-        puts "Name:"
-        name = gets.gsub(/\s+$/,'')
+      puts "Hobbies:"
+      #get hobbies, country of birth, height
+      hobbies = gets.gsub(/\s+$/,'')
+      puts "Country of birth:"
+      country = gets.gsub(/\s+$/,'')
+      puts "Height:"
+      height = gets.gsub(/\s+$/,'')
+      #add the student hash to the array
+      students << {name: name, cohort: cohort.capitalize.to_sym, hobbies: hobbies, country: country, height: height}
+      if students.length == 1
+        puts "Now we have #{students.count} student"
+      else
+        puts "Now we have #{students.count} students"
+      end
+      #get another name from the user
+      puts "Name:"
+      name = gets.gsub(/\s+$/,'')
     end
   end
   #return the array of students
@@ -113,10 +153,10 @@ end
 def print_groupby_cohort(students)
   cohorts = students.map{|student| student[:cohort]}.uniq
   cohorts.each do |cohort|
-    puts "Cohort: #{cohort}"
+    puts "Cohort: #{cohort}".center(50)
     students.each do |student|
       if student[:cohort] == cohort
-        puts "#{student[:name]}"
+        puts "#{student[:name]}".center(50)
       end
     end
   end
@@ -126,19 +166,5 @@ def print_footer(names)
   puts "Overall, we have #{names.count} great students.".center(50)
 end
 
-#nothing happens until we call the methods
-students = input_students
-print_header
-print(students)
-print_footer(students)
-#print the list of all students whose names begin with 'k'
-puts "-".* 70
-print_name_begins_with(students, 'k')
-
-#print students whose names are shorter than 12 characters
-puts "-".* 70
-print_name_shorter_than(students, 12)
-
-#print students group by cohort
-puts "-".* 70
-print_groupby_cohort(students)
+#nothing happens if we don't call the fuction
+interactive_menu
