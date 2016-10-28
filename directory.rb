@@ -110,6 +110,18 @@ def print_name_shorter_than(students, num)
   end
 end
 
+def print_groupby_cohort(students)
+  cohorts = students.map{|student| student[:cohort]}.uniq
+  cohorts.each do |cohort|
+    puts "Cohort: #{cohort}"
+    students.each do |student|
+      if student[:cohort] == cohort
+        puts "#{student[:name]}"
+      end
+    end
+  end
+end
+
 def print_footer(names)
   puts "Overall, we have #{names.count} great students.".center(50)
 end
@@ -126,3 +138,7 @@ print_name_begins_with(students, 'k')
 #print students whose names are shorter than 12 characters
 puts "-".* 70
 print_name_shorter_than(students, 12)
+
+#print students group by cohort
+puts "-".* 70
+print_groupby_cohort(students)
