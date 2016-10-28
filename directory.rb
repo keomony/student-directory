@@ -13,7 +13,7 @@ def input_students
   name = gets.gsub(/\s+$/,'')
 
   #while the name is not empty, repeat this code
-  while !name.empty? do
+  while !valid_name?(name) do
     puts "Cohort:"
     cohort = gets.gsub(/\s+$/,'')
     #validate cohort input if it's empty or not match with the existing cohort (considered it as typo)
@@ -44,6 +44,11 @@ def input_students
   students
 end
 
+#it returns true if name has some characters rather than spaces
+def valid_name?(name)
+  name.strip.empty?
+end
+
 def print_header
   puts "The students of Villains Academy".center(50)
   puts "-".* 70
@@ -58,6 +63,11 @@ end
 #print the students whose name begins with a specific letter
 def print_name_begins_with(students, a_letter)
   puts "Students whose names begin with #{a_letter}".center(50)
+  #if array is empty, print this sentence and return
+  if students.length == 0
+    puts "There's no student in the array.".center(50)
+    return
+  end
   #array index starts from 0
   j = 0
   #iterator starts from 1
@@ -78,6 +88,11 @@ end
 #print students whose names are shorter than 12 characters
 def print_name_shorter_than(students, num)
   puts "Students whose names are shorter than #{num} characters".center(50)
+  #if array is empty, print this sentence and return
+  if students.length == 0
+    puts "There's no student in the array.".center(50)
+    return
+  end
   #array index starts from 0
   j = 0
   #iterator starts from 1
