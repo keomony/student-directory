@@ -7,9 +7,10 @@ def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
   puts "3. Save the list to students.csv"
-  puts "4. List of all students whose names begin with \'k\'"
-  puts "5. Print students whose names are shorter than 12 characters"
-  puts "6. Print students grouped by cohort"
+  puts "4. Load the list from students.csv"
+  puts "5. List of all students whose names begin with \'k\'"
+  puts "6. Print students whose names are shorter than 12 characters"
+  puts "7. Print students grouped by cohort"
   puts "9. Exit" # 9 because we'll be adding more items
 end
 
@@ -28,12 +29,14 @@ def process(selection)
     when "3"
       save_students
     when "4"
-      puts "-".* 70
-      print_name_begins_with('k')
+      load_students
     when "5"
       puts "-".* 70
-      print_name_shorter_than(12)
+      print_name_begins_with('k')
     when "6"
+      puts "-".* 70
+      print_name_shorter_than(12)
+    when "7"
       puts "-".* 70
       print_groupby_cohort
     when "9"
@@ -54,6 +57,15 @@ def save_students
   end
   file.close
   puts "saved."
+end
+
+def load_students
+  file = File.open("students.csv", "r")
+  file.readlines.each do |line|
+    name,cohort,hobbies,country,height = line.chomp.split(',')
+    @students << {name: name, cohort: cohort.to_sym, hobbies: hobbies, country: country, height: height}
+  end
+  file.close
 end
 
 def interactive_menu
