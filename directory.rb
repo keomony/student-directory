@@ -124,11 +124,13 @@ end
 def load_students(filename = 'students.csv')
   if File.exists?(filename)
     @students = []
-    lines = File.open(filename, "r"){|datafile| datafile.readlines}
-    lines.each{|line|
-      name,cohort = line.chomp.split(',')
+    file = File.open(filename, "r")
+    #best practice for reading file one line at a time
+    while !file.eof?
+      name,cohort = file.readline.chomp.split(',')
       add_student(name,cohort)
-    }
+    end
+    file.close
     puts "Loaded #{@students.count} students from #{filename}"
   else
     puts "Sorry, #{filename} doesn't exist."
