@@ -1,7 +1,8 @@
+require 'csv'
 @students = [] # an empty array accessible to all methods
 #set months as an instance variable as it is needed in different methods within the class
 #months of the year are always the same, there's no modification on the varialbe and its values
-@months = ['January','February','March','April','May','June','July','August','September','November','December']
+@months = ['January','February','March','April','May','June','July','August','September','October','November','December']
 
 def print_menu
   puts "1. Input the students"
@@ -110,27 +111,22 @@ end
 
 def save_students
   #open the file for writing
-  file = File.open(input_filename, "w")
-  #iterate over the array of students
-  @students.each do |student|
-    student_data = [student[:name], student[:cohort]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
+  CSV.open(input_filename, "w") do |csv|
+    @students.each do |student|
+      student_data = [student[:name], student[:cohort]]
+      #csv_line = student_data.join(",")
+      csv << student_data
+    end
   end
-  file.close
   puts "saved."
 end
 
 def load_students(filename = 'students.csv')
   if File.exists?(filename)
     @students = []
-    file = File.open(filename, "r")
-    #best practice for reading file one line at a time
-    while !file.eof?
-      name,cohort = file.readline.chomp.split(',')
-      add_student(name,cohort)
+    CSV.foreach(filename) do |row|
+      add_student(*row)
     end
-    file.close
     puts "Loaded #{@students.count} students from #{filename}"
   else
     puts "Sorry, #{filename} doesn't exist."
