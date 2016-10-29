@@ -122,9 +122,9 @@ def load_students(filename = 'students.csv')
   file.close
 end
 
-def try_load_students
-  filename = ARGV.first #first argument from the command line
-  return if filename.nil? #get out of the method if it's not given
+def try_load_students(filename = 'students.csv')
+  # filename = ARGV.first #first argument from the command line
+  # filename = 'students.csv' if filename.nil? #get out of the method if it's not given
   if File.exists?(filename)
     load_students(filename)
     puts "Loaded #{@students.count} from #{filename}"
@@ -206,5 +206,10 @@ def print_groupby_cohort
 end
 
 #nothing happens if we don't call the fuction
-try_load_students
+if ARGV.size == 1 
+  try_load_students(ARGV.first)
+else
+  try_load_students()
+end
+
 interactive_menu
