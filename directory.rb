@@ -6,8 +6,8 @@
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. Save the list to students.csv"
-  puts "4. Load the list from students.csv"
+  puts "3. Save the list to the file"
+  puts "4. Load the list from the file"
   puts "5. List of all students whose names begin with \'k\'"
   puts "6. Print students whose names are shorter than 12 characters"
   puts "7. Print students grouped by cohort"
@@ -99,10 +99,10 @@ def print_footer
 end
 
 def input_filename
-  puts "Please type the file name with extension csv"
+  puts "Please type name of the file with extension csv"
   filename = gets.chomp
   while !valid_name?(filename)
-    puts "Please type the file name with extension csv"
+    puts "Please type name of the file with extension csv"
     filename = gets.chomp
   end
   filename
@@ -124,12 +124,11 @@ end
 def load_students(filename = 'students.csv')
   if File.exists?(filename)
     @students = []
-    file = File.open(filename, "r")
-    file.readlines.each do |line|
+    lines = File.open(filename, "r"){|datafile| datafile.readlines}
+    lines.each{|line|
       name,cohort = line.chomp.split(',')
       add_student(name,cohort)
-    end
-    file.close
+    }
     puts "Loaded #{@students.count} students from #{filename}"
   else
     puts "Sorry, #{filename} doesn't exist."
@@ -158,10 +157,10 @@ end
 
 #print the students whose name begins with a specific letter
 def print_name_begins_with(a_letter)
-  puts "\nStudents whose names begin with #{a_letter}".center(50)
+  puts "Students whose names begin with #{a_letter}".center(50)
   #if array is empty, print this sentence and return
   if @students.length == 0
-    puts "\nThere's no student in the array.".center(50)
+    puts "There's no student in the array.".center(50)
     return
   end
   #array index starts from 0
@@ -177,16 +176,16 @@ def print_name_begins_with(a_letter)
   end while j< @students.length #while loops as long as the condition is true
   #if no name matched the condition
   if i < 2
-    puts "\nThere's no student whose name beings with #{a_letter}".center(50)
+    puts "There's no student whose name beings with #{a_letter}".center(50)
   end
 end
 
 #print students whose names are shorter than 12 characters
 def print_name_shorter_than(num)
-  puts "\nStudents whose names are shorter than #{num} characters".center(50)
+  puts "Students whose names are shorter than #{num} characters".center(50)
   #if array is empty, print this sentence and return
   if @students.length == 0
-    puts "\nThere's no student in the array.".center(50)
+    puts "There's no student in the array.".center(50)
     return
   end
   #array index starts from 0
@@ -202,7 +201,7 @@ def print_name_shorter_than(num)
   end until j > @students.length - 1 #until loops as long as the condition is false
   #if no name matched the condition
   if i < 2
-    puts "\nThere's no student whose name is shorter than #{num}".center(50)
+    puts "There's no student whose name is shorter than #{num}".center(50)
   end
 end
 
