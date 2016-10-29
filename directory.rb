@@ -31,7 +31,7 @@ def process(selection)
     when "3"
       save_students
     when "4"
-      load_students
+      load_students(input_filename)
     when "5"
       print_name_begins_with('k')
     when "6"
@@ -55,7 +55,7 @@ def input_students
   name = STDIN.gets.chomp
 
   #while the name is not empty, repeat this code
-  while !valid_name?(name) do
+  while valid_name?(name) do
     puts "Cohort:"
     cohort = STDIN.gets.chomp
     #validate cohort input if it's empty or not match with the existing cohort (considered it as typo)
@@ -98,9 +98,19 @@ def print_footer
   puts "Overall, we have #{@students.count} great students.".center(50)
 end
 
+def input_filename
+  puts "Please type the file name with extension csv"
+  filename = gets.chomp
+  while !valid_name?(filename)
+    puts "Please type the file name with extension csv"
+    filename = gets.chomp
+  end
+  filename
+end
+
 def save_students
   #open the file for writing
-  file = File.open("students.csv", "w")
+  file = File.open(input_filename, "w")
   #iterate over the array of students
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
@@ -112,13 +122,18 @@ def save_students
 end
 
 def load_students(filename = 'students.csv')
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
-    name,cohort = line.chomp.split(',')
-    add_student(name,cohort)
+  if File.exists?(filename)
+    @students = []
+    file = File.open(filename, "r")
+    file.readlines.each do |line|
+      name,cohort = line.chomp.split(',')
+      add_student(name,cohort)
+    end
+    file.close
+    puts "Loaded #{@students.count} students from #{filename}"
+  else
+    puts "Sorry, #{filename} doesn't exist."
   end
-  file.close
-  puts "Loaded #{@students.count} students from #{filename}"
 end
 
 def try_load_students()
@@ -128,7 +143,7 @@ def try_load_students()
     load_students(filename)
   else #if it doesn't exist
     puts "Sorry, #{filename} doesn't exist."
-    exit #quit the program
+    #exit #quit the program
   end
 end
 
@@ -138,7 +153,7 @@ end
 
 #it returns true if name has some characters rather than spaces
 def valid_name?(name)
-  name.strip.empty?
+  !name.strip.empty?
 end
 
 #print the students whose name begins with a specific letter
